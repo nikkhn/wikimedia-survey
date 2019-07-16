@@ -1,0 +1,33 @@
+body {
+	background-color: white;
+	margin: 10px;
+}
+
+.questions {
+	margin: 15px;
+}
+
+.btn-primary {
+	margin: 15px;
+}
+
+
+h2 {
+	color: lightskyblue;
+	text-align: center;
+}
+
+form {
+	margin: 15px;
+}
+
+table{
+	margin: 10px;
+}
+
+.success-header {
+	text-align: center;
+} 
+.result-btn{
+	text-align: center;
+}
