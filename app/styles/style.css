@@ -9,7 +9,9 @@ body {
 .question-title {
 	font-weight: bold;
 }
-
+.result-btn{
+	color: white;
+}
 .form-check{
 	margin: 5px;
 }

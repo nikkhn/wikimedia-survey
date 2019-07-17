@@ -1,0 +1,9 @@
+{ 
+	"sql" : {
+		"host": "localhost",
+		"user": "root",
+		"password": "wikipass",
+		"database" : "WikiSurvey",
+		"multipleStatements": true
+	}
+}

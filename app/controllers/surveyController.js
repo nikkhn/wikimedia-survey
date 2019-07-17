@@ -80,12 +80,14 @@ const initializePostObject = (questions) => {
 }
 
 const loadQuestions = async () => {
-	const questions = await $.ajax({url: "frontend/models/questions.json"});
+	const questions = await $.ajax({url: "app/models/questions.json"});
 	initializePostObject(questions);
 	return questions
 };
 
 const submitSurvey = async () => {
+	console.log(JSON.stringify(postObject))
+	return;
 	const response = await fetch("/survey", {
 		headers: { 'Content-Type': 'application/json'},
 		method: "POST",

@@ -16,7 +16,6 @@ const surveyResults = loadResults().then((response) => {
 		const uniqueQuestions = getUniqueQuestions(multipleChoiceResults);
 		for (const uniqueQ in uniqueQuestions) {
 			const tableParentElement = document.getElementById("mc-results-table");
-			console.log(uniqueQuestions)
 			generateTableRows(tableParentElement, uniqueQ, uniqueQuestions);
 		}
 	}
@@ -47,7 +46,6 @@ const getUniqueQuestions = (results) => {
 }
 
 const generateTableRows = (tableParentElement, uniqueQ, uniqueQuestions) => {
-	console.log(uniqueQuestions)
 	const tableRow = document.createElement('tr');
 	tableParentElement.appendChild(tableRow)
 	const questionElement = document.createElement('th');
@@ -56,7 +54,7 @@ const generateTableRows = (tableParentElement, uniqueQ, uniqueQuestions) => {
 	const answers = uniqueQuestions[uniqueQ];
 	answers.forEach((ans) => {
 		const answerElement = document.createElement('td');
-		answerElement.innerHTML = `${ans.answer} ${ans.count}`;
+		answerElement.innerHTML = `${ans.answer} (${ans.count})`;
 		tableRow.appendChild(answerElement)
 	})
 }

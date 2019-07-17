@@ -10,16 +10,11 @@ const port = 3000;
 const app = require('express')();
 app.use(express.static(__dirname));
 app.use( bodyParser.json() );      
-const pagesDirectory = '../wikimedia-survey/frontend/pages/';
+const pagesDirectory = '../wikimedia-survey/app/pages/';
+const config = fs.readFileSync("config.json");
+const { sql } = JSON.parse(config);
+const connection = mysql.createConnection(sql);
 
-const connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'wikipass',
-  database : 'WikiSurvey',
-  multipleStatements: true,
-});
- 
 connection.connect((err) => {
   if (err) throw err
   console.log('You are now connected with mysql database...')
@@ -35,7 +30,7 @@ app.get('/results', (req, res, next) => {
 	   if (error) {
 		   next(error)
 	   } else {
-			res.status(400).send(JSON.stringify(results));
+			res.status(200).send(JSON.stringify(results));
 	   }
 	 });
  });
