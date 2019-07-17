@@ -3,15 +3,15 @@
 [
 	{
 		"questionID": 1,
-		"question": "Who's your favorite princess?",
-		"answers": ["Luna","Celestia","Cadance","Twilight"],
+		"question": "What's your favorite pony type?",
+		"answers": ["Alicorn","Earth Pony","Pegasus", "Unciorn","Sea Pony","Zebra"],
 		"questionType": "Multiple Choice"
 
 	},
 	{
 		"questionID": 2,
-		"question": "What's your favorite pony type?",
-		"answers": ["Alicorn","Earth Pony","Pegasus", "Unciorn","Sea Pony","Zebra"],
+		"question": "Who's your favorite princess?",
+		"answers": ["Luna","Celestia","Cadance","Twilight"],
 		"questionType": "Multiple Choice"
 
 	},

@@ -1,11 +1,17 @@
+// Controller for handling all logic displayed on the Reporting page
+
+let multipleChoiceResults = [];
+let freeTextResults = [];
+
+// Load past survey results from database
 const loadResults = async () => {
 	const results = await fetch('/results');
 	const json = await results.json();
 	return json;
 };
 
-let multipleChoiceResults = [];
-let freeTextResults = [];
+// Initialize the survey results object that is returned from the API call.
+// Create and render table elements to display reporting data
 const surveyResults = loadResults().then((response) => {
 	if (response.length) {
 		const results = response[0];
@@ -19,6 +25,9 @@ const surveyResults = loadResults().then((response) => {
 			generateTableRows(tableParentElement, uniqueQ, uniqueQuestions);
 		}
 	}
+
+	// For free text questions, display the three most common and unique answers along 
+	// with the number of responses for each of those popular answers.
 	if (freeTextResults.length) {
 		const uniqueQuestions = getUniqueQuestions(freeTextResults);
 		for (const uniqueQ in uniqueQuestions) {
@@ -32,8 +41,7 @@ const surveyResults = loadResults().then((response) => {
 	}
 });
 
-// For free text questions, the report should show the three most common and unique answers along with the number of responses for each of those popular answers.
-
+// Return map of results mapping each question to its answers
 const getUniqueQuestions = (results) => {
 	const uniqueQuestions = {};
 	results.forEach((question) => {
@@ -45,6 +53,7 @@ const getUniqueQuestions = (results) => {
 	return uniqueQuestions;
 }
 
+// Generate and populate <th> and <td> elements for the question and its subsequent answers
 const generateTableRows = (tableParentElement, uniqueQ, uniqueQuestions) => {
 	const tableRow = document.createElement('tr');
 	tableParentElement.appendChild(tableRow)

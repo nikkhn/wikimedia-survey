@@ -1,31 +1,16 @@
 
+CREATE DATABASE WikiSurvey;
+
 Use WikiSurvey;
 CREATE TABLE questionTypes (
 QuestionTypeID  int Auto_Increment,
 QuestionType varchar(50) NOT NULL,
 PRIMARY KEY (QuestionTypeID)
-)
+);
 
 Use WikiSurvey;
 INSERT INTO questionTypes (questiontype) values ("Multiple Choice");
 INSERT INTO questionTypes (questiontype) values ("Free Text");
-
-Use WikiSurvey;
-CREATE TABLE questions (
-QuestionID int Auto_Increment,
-Question varchar(256) NOT NULL,
-fk_QuestionType int NOT NULL,
-FOREIGN KEY (fk_QuestionType) REFERENCES QuestionTypes(QuestionTypeID),
-PRIMARY KEY (QuestionID)
-);
-
-Use WikiSurvey;
-INSERT INTO questions (question, fk_questionType) values ("What's your favorite pony type?", 1);
-INSERT INTO questions (question, fk_questionType) values ("Who's your favorite princess?", 1);
-INSERT INTO questions (question, fk_questionType) values ("Who's your favorite pet?" , 1);
-INSERT INTO questions (question, fk_questionType) values ("Which character do you want to see more of?", 2);
-INSERT INTO questions (question, fk_questionType) values ("What's your favorite MLP fanfic?", 2);
-
 
 Use WikiSurvey;
 CREATE TABLE questions (
@@ -42,7 +27,7 @@ CREATE TABLE answerTypes (
 AnswerTypeID  int Auto_Increment,
 AnswerType varchar(50) NOT NULL,
 PRIMARY KEY (AnswerTypeID)
-)
+);
 
 Use WikiSurvey;
 INSERT INTO answerTypes (answerType) values ("Multiple Choice");
@@ -66,6 +51,15 @@ fk_answerId int NOT NULL,
 count int DEFAULT 0,
  PRIMARY KEY (question_answer_ID)
 );
+
+
+
+Use WikiSurvey;
+INSERT INTO questions (question, fk_questionType) values ("What's your favorite pony type?", 1);
+INSERT INTO questions (question, fk_questionType) values ("Who's your favorite princess?", 1);
+INSERT INTO questions (question, fk_questionType) values ("Who's your favorite pet?" , 1);
+INSERT INTO questions (question, fk_questionType) values ("Which character do you want to see more of?", 2);
+INSERT INTO questions (question, fk_questionType) values ("What's your favorite MLP fanfic?", 2);
 
 
 -- Use WikiSurvey;

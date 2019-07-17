@@ -1,5 +1,8 @@
 
-// create input elements for free text
+// Boilerplate for body to POST survey results
+const postObject = [];
+
+// Create, populate, and render input elements for free text questions
 const fillFreeTextQuestions = (elem, questions) => {
 		const parentElement = document.getElementById(elem);
 		questions.forEach((question, index) => {
@@ -10,7 +13,8 @@ const fillFreeTextQuestions = (elem, questions) => {
 			appendChildElement.innerHTML = question.question;
 	});
 }
-// create question elements from an array of question objects
+
+// Create, populate, and render multiple choice question elements
 const fillMultipleChoiceQuestions = (elem, questions) => {
 		const parentElement = document.getElementById(elem);
 		questions.forEach((question) => {
@@ -30,6 +34,7 @@ const fillMultipleChoiceQuestions = (elem, questions) => {
 		})
 }
 
+// Create and return a label element
 const createButtonLabel = (answer) => {
 	const labelElement = document.createElement('label');
 		labelElement.setAttribute("class", "form-check-label");
@@ -37,7 +42,7 @@ const createButtonLabel = (answer) => {
 		return labelElement;
 }
 
-
+// Create and return a radio button element
 const createRadioButton = (questionID, answer) => {
 	const radioButton = document.createElement('input');
 	radioButton.setAttribute("type", "radio")
@@ -51,7 +56,7 @@ const createRadioButton = (questionID, answer) => {
 	return radioButton;
 }
 
-
+// Check validity of form, and enable Submit button if need be
 const checkDisabledStatus = () => {
 	const submitButton = document.getElementById('survey-submit-button');
 	const validForm = postObject.find((question) => question.answer == null)
@@ -60,19 +65,19 @@ const checkDisabledStatus = () => {
 	}
 }
 
-	const createInput = (questionID) => {
-		const inputElement = document.createElement('input');
-		inputElement.setAttribute("class", "form-control");
-		inputElement.addEventListener("input", (event) => {
-		const matchingQuestion = postObject.find((obj) => obj.question == questionID);
-			matchingQuestion.answer = event.srcElement.value;
-			checkDisabledStatus();
-		});
-		return inputElement;
-	}
+// Create input element for free text field
+const createInput = (questionID) => {
+	const inputElement = document.createElement('input');
+	inputElement.setAttribute("class", "form-control");
+	inputElement.addEventListener("input", (event) => {
+	const matchingQuestion = postObject.find((obj) => obj.question == questionID);
+		matchingQuestion.answer = event.srcElement.value;
+		checkDisabledStatus();
+	});
+	return inputElement;
+}
 
-const postObject = [];
-
+// Initialize body to POST survey results
 const initializePostObject = (questions) => {
 	questions.forEach((question) => {
 		postObject.push({question: question.questionID, answer: null, questionType: question.questionType})
@@ -80,21 +85,18 @@ const initializePostObject = (questions) => {
 }
 
 const loadQuestions = async () => {
-	const questions = await $.ajax({url: "app/models/questions.json"});
+	const questions = await $.ajax({url: "app/json/questions.json"});
 	initializePostObject(questions);
 	return questions
 };
 
+// Post survey results to API
 const submitSurvey = async () => {
-	console.log(JSON.stringify(postObject))
-	return;
 	const response = await fetch("/survey", {
 		headers: { 'Content-Type': 'application/json'},
 		method: "POST",
 		body: JSON.stringify(postObject),
 	})
-	console.log(response);
-	console.log(await response.json());
 	if (response.status !== 200) {
 		console.log(response);
 	}
