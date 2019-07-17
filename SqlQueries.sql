@@ -53,7 +53,6 @@ count int DEFAULT 0,
 );
 
 
-
 Use WikiSurvey;
 INSERT INTO questions (question, fk_questionType) values ("What's your favorite pony type?", 1);
 INSERT INTO questions (question, fk_questionType) values ("Who's your favorite princess?", 1);
@@ -91,6 +90,7 @@ INSERT INTO questions_answers (fk_questionID, fk_answerID) values (1, 4);
 INSERT INTO questions_answers (fk_questionID, fk_answerID) values (1, 5);
 
 
+INSERT INTO questions_answers (fk_questionID, fk_answerID) values (2, 6);
 INSERT INTO questions_answers (fk_questionID, fk_answerID) values (2, 7);
 INSERT INTO questions_answers (fk_questionID, fk_answerID) values (2, 8);
 INSERT INTO questions_answers (fk_questionID, fk_answerID) values (2, 9);
