@@ -37,7 +37,6 @@ app.get('/results', (req, res, next) => {
 
  app.post('/survey', (req, res, next) => {
 	const params = req.body;
-	console.log(params);
 	params.forEach((param) => {
 		const { question, answer, questionType } = param;
 		if (!question || !answer || !questionType) {
