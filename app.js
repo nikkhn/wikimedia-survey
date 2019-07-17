@@ -10,9 +10,6 @@ const port = 3000;
 const app = require('express')();
 app.use(express.static(__dirname));
 app.use( bodyParser.json() );      
-// app.use(bodyParser.urlencoded({  
-//   extended: true
-// }));
 const pagesDirectory = '../wikimedia-survey/frontend/pages/';
 
 const connection = mysql.createConnection({
@@ -31,32 +28,35 @@ connection.connect((err) => {
 app.get('/', (req, res) => {  res.sendFile(path.join(__dirname, pagesDirectory, 'index.html'))});
 app.get('/success', (req, res) => { res.sendFile(path.join(__dirname, pagesDirectory, 'success.html'))});
 app.get('/reporting', (req, res) => { res.sendFile(path.join(__dirname, pagesDirectory, 'reporting.html'))});
+app.get('/error', (req, res) => { res.sendFile(path.join(__dirname, pagesDirectory, 'error.html'))});
 
-app.get('/results', (req, res) => {
+app.get('/results', (req, res, next) => {
 	connection.query('CALL GetSurveyResults()', (error, results, fields) => {
-	   if (error) throw error;
-	   res.end(JSON.stringify(results));
+	   if (error) {
+		   next(error)
+	   } else {
+			res.status(400).send(JSON.stringify(results));
+	   }
 	 });
  });
 
- app.post('/survey', (req, res, err) => {
-	const params  = req.body;
+ app.post('/survey', (req, res, next) => {
+	const params = req.body;
 	params.forEach((param) => {
 		const { question, answer, questionType } = param;
-		if (!question || !answer || questionType) {
-			throw new Exception("Missing required param");
+		if (!question || !answer || !questionType) {
+			return res.status(400).send('Missing required param');
 		}
-		const insertAnswer = connection.query('SET @answer = ' + "'" + answer +"'"  + '; SET @questionID = ' + "'" + question + "'" + '; SET @inputAnswerType = ' + "'" + questionType + "'" + '; CALL PostSurvey(@answer, @questionID, @inputAnswerType);', (error, results, fields) =>{
-			if (results) {
-				console.log(results);
-			} else {
-				throw new Excpetion('Failed to send survey data');
+		connection.query('SET @answer = ' + "'" + answer +"'"  + '; SET @questionID = ' + "'" + question + "'" + '; SET @inputAnswerType = ' + "'" + questionType + "'" + '; CALL PostSurvey(@answer, @questionID, @inputAnswerType);', (error, results, fields) =>{
+			if (error) {
+				return res.status(500).send('Error occurred sending survey');
 			}
 		});
 	})
+	return res.status(200).send('Success');
+	
  });
  
-app.get('/results', (req, res) => { res.send()} )
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });

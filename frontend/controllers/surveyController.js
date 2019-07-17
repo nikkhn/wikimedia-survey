@@ -3,7 +3,6 @@
 const fillFreeTextQuestions = (elem, questions) => {
 		const parentElement = document.getElementById(elem);
 		questions.forEach((question, index) => {
-			console.log(question);
 			const labelElement = createButtonLabel();
 			const inputElement = createInput(question.questionID);
 			const appendChildElement = parentElement.appendChild(labelElement)
@@ -13,7 +12,6 @@ const fillFreeTextQuestions = (elem, questions) => {
 }
 // create question elements from an array of question objects
 const fillMultipleChoiceQuestions = (elem, questions) => {
-	console.log(questions);
 		const parentElement = document.getElementById(elem);
 		questions.forEach((question) => {
 			const questionTextElement = document.createElement('div');
@@ -48,19 +46,30 @@ const createRadioButton = (questionID, answer) => {
 	radioButton.addEventListener("click", (event) => {
 		const matchingQuestion = postObject.find((obj) => obj.question == questionID);
 		matchingQuestion.answer = answer;
+		checkDisabledStatus()
 	});
 	return radioButton;
 }
 
-const createInput = (questionID) => {
-	const inputElement = document.createElement('input');
-	inputElement.setAttribute("class", "form-control");
-	inputElement.addEventListener("input", (event) => {
-	const matchingQuestion = postObject.find((obj) => obj.question == questionID);
-		matchingQuestion.answer = event.srcElement.value;
-	});
-	return inputElement;
+
+const checkDisabledStatus = () => {
+	const submitButton = document.getElementById('survey-submit-button');
+	const validForm = postObject.find((question) => question.answer == null)
+	if (!validForm) {
+		submitButton.removeAttribute("disabled");
+	}
 }
+
+	const createInput = (questionID) => {
+		const inputElement = document.createElement('input');
+		inputElement.setAttribute("class", "form-control");
+		inputElement.addEventListener("input", (event) => {
+		const matchingQuestion = postObject.find((obj) => obj.question == questionID);
+			matchingQuestion.answer = event.srcElement.value;
+			checkDisabledStatus();
+		});
+		return inputElement;
+	}
 
 const postObject = [];
 
@@ -77,17 +86,16 @@ const loadQuestions = async () => {
 };
 
 const submitSurvey = async () => {
-	try {
-		const response = await fetch("/survey", {
-			headers: { 'Content-Type': 'application/json'},
-			method: "POST",
-			body: JSON.stringify(postObject),
-		})
-	} catch(e) {
-		console.log(e);
+	const response = await fetch("/survey", {
+		headers: { 'Content-Type': 'application/json'},
+		method: "POST",
+		body: JSON.stringify(postObject),
+	})
+	console.log(response);
+	console.log(await response.json());
+	if (response.status !== 200) {
+		console.log(response);
 	}
-
-	// console.log(await response.json());
 }
 
 const loadPage = loadQuestions().then((response) =>{

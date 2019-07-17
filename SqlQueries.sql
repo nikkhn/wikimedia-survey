@@ -1,10 +1,10 @@
 
-Use WikiSurvey;
-CREATE TABLE users (
-UserId int Auto_Increment,
-Username varchar(50) NOT NULL,
-PRIMARY KEY (UserId)
-)
+-- Use WikiSurvey;
+-- CREATE TABLE users (
+-- UserId int Auto_Increment,
+-- Username varchar(50) NOT NULL,
+-- PRIMARY KEY (UserId)
+-- )
 
 Use WikiSurvey;
 CREATE TABLE questionTypes (
@@ -31,7 +31,7 @@ INSERT INTO questions (question, fk_questionType) values ("Who's your favorite p
 INSERT INTO questions (question, fk_questionType) values ("What's your favorite pony type?", 1);
 INSERT INTO questions (question, fk_questionType) values ("Who's your favorite pet?" , 1);
 INSERT INTO questions (question, fk_questionType) values ("Which character do you want to see more of?", 2);
-INSERT INTO questions (question, fk_questionType) values ("What's your favorite MLP fanfic?", 7);
+INSERT INTO questions (question, fk_questionType) values ("What's your favorite MLP fanfic?", 2);
 
 
 Use WikiSurvey;
@@ -70,6 +70,7 @@ CREATE TABLE questions_answers (
 question_answer_ID int AUTO_Increment,
 fk_questionID varchar(256) NOT NULL,
 fk_answerId int NOT NULL,
+count int DEFAULT 0,
  PRIMARY KEY (question_answer_ID)
 );
 
@@ -136,14 +137,16 @@ fk_answerId int NOT NULL,
 -- answers.answerID = fk_answerID
 
 
-Use WikiSurvey;
-CREATE TABLE users_questions_answers (
-fk_question_answer_ID int NOT NULL,
-fk_userId  int NOT NULL,
-FOREIGN KEY (fk_userId) REFERENCES Users(UserID),
-FOREIGN KEY (fk_question_answer_ID) REFERENCES questions_answers(question_answer_ID)
-);
+-- Use WikiSurvey;
+-- CREATE TABLE users_questions_answers (
+-- fk_question_answer_ID int NOT NULL,
+-- fk_userId  int NOT NULL,
+-- FOREIGN KEY (fk_userId) REFERENCES Users(UserID),
+-- FOREIGN KEY (fk_question_answer_ID) REFERENCES questions_answers(question_answer_ID)
+-- );
 
+
+SET SQL_SAFE_UPDATES = 0;
 
 -- SPROC for survey results
 USE wikiSurvey;
@@ -172,11 +175,9 @@ BEGIN
 SET @answerTypeID = (SELECT AnswerTypeID FROM answerTypes where AnswerType = inputAnswerType);
  SET @answerID = (SELECT answerID from answers where answer = answerValue and fk_answerType = @answerTypeID);
  IF ( @answerID IS NULL) THEN -- new answer
-	
 	INSERT INTO answers (answer, fk_answerType) VALUES (answerValue, @answerTypeID);
     INSERT INTO questions_answers (fk_questionId, fk_answerID, count) VALUES (questionID, LAST_INSERT_ID(), 1); 
 ELSE 
-	SELECT @answerID;
 	UPDATE questions_answers SET count = count+1 WHERE fk_questionID = questionID AND fk_answerID = @answerID;
 END IF;
 END //

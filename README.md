@@ -1,22 +1,13 @@
-// install mysql
-// brew services start mysql
+# Wikimedia Survey
+- A survey system allowing users to vote on crucial questions
 
+## Local App Setup
+- Ensure you have MySQL (version 8+) installed
+	- For Macs, you can run `homebrew install mysql`
+- Run `brew services start mysql` to start up the database
+- Execute all the SQL queries included in the file `SqlQueries.SQL` to initialize database tables
+- Naviage to home directory of project
+- Run `node app.js` to start application
+- In your browser naviagate to `localhost:3000`;
 
-# Local Setup
-- Ensure you have MySQL installed
-	- homebrew install mysql for Mac
-- homebrew services start MySql running on port ___
-
-- Naviage to home folder
-- node app.js
-
-- localhost:3000/
-
-
-Alternatively, for H1 and H2, an underline-ish style:
-
-Alt-H1
-======
-
-Alt-H2
-------
+### Happy Survey-ing!

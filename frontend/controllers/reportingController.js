@@ -16,17 +16,24 @@ const surveyResults = loadResults().then((response) => {
 		const uniqueQuestions = getUniqueQuestions(multipleChoiceResults);
 		for (const uniqueQ in uniqueQuestions) {
 			const tableParentElement = document.getElementById("mc-results-table");
+			console.log(uniqueQuestions)
 			generateTableRows(tableParentElement, uniqueQ, uniqueQuestions);
 		}
 	}
 	if (freeTextResults.length) {
 		const uniqueQuestions = getUniqueQuestions(freeTextResults);
 		for (const uniqueQ in uniqueQuestions) {
+			const questions = uniqueQuestions[uniqueQ];
+			const topThreeCommon = questions.slice(0, 3);
+			const topThreeUnique = questions.slice(questions.length - 4, questions.length-1);
+			const combinedAnswers = topThreeCommon.concat(topThreeUnique);
 			const tableParentElement = document.getElementById("text-results-table");
-			generateTableRows(tableParentElement, uniqueQ, uniqueQuestions);
+			generateTableRows(tableParentElement, uniqueQ, { [uniqueQ]: combinedAnswers});
 		}
 	}
 });
+
+// For free text questions, the report should show the three most common and unique answers along with the number of responses for each of those popular answers.
 
 const getUniqueQuestions = (results) => {
 	const uniqueQuestions = {};
@@ -40,6 +47,7 @@ const getUniqueQuestions = (results) => {
 }
 
 const generateTableRows = (tableParentElement, uniqueQ, uniqueQuestions) => {
+	console.log(uniqueQuestions)
 	const tableRow = document.createElement('tr');
 	tableParentElement.appendChild(tableRow)
 	const questionElement = document.createElement('th');

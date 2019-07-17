@@ -1,25 +1,22 @@
 
 <html>
     <head>
-		<title>Quiz!</title>
-		  <!-- Bootstrap CSS -->
+		<title>WikiSurvey</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<link rel="stylesheet" href="frontend/styles/style.css">
     </head>
     <body>
 		<h2>Survey-O-Rama!</h2>		
-		<!-- <input id="foo" type='text' value=''> -->
+		<h5>Thought My Little Pony was just for bronies? Think again!</h5>
+		<h5>Time to answer some questions about everyone's favorite show</h5>		
 		<form action="/success">
 			<div class="questions" id="multiple-choice-questions"></div>
 			<div class="questions" id="free-text-questions"></div>
-			<button type="submit" onclick="submitSurvey()" class="btn btn-primary float-right">Submit</button>
+			<button type="submit" onclick="submitSurvey()" disabled="disabled" class="btn btn-primary float-right" id="survey-submit-button">Submit</button>
 		</form>
-		<!-- custom avaScript files -->
+
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 		<script type="text/javascript" src="frontend/controllers/surveyController.js"></script>
-		
-		<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-		<!-- <script src="js/scripts.js"></script> -->
 		</body>
 </html>
