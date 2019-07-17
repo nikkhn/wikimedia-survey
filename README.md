@@ -5,10 +5,12 @@
 
 - Run `npm install` to get necessary packages
 - Ensure you have MySQL (version 8+) installed
-	- For Macs, you can run `homebrew install mysql`
+	- For Macs, you can run `brew install mysql`
 - Run `brew services start mysql` to start up the database
 - Execute all the SQL queries included in the file `SqlQueries.SQL` to initialize database tables
 	- You can install and use a handy tool like `SequelPro` or `MySQL Workbench` to do so easily
+- Execute `mysql -u root -p`
+	- Enter `wikipass` as the password when prompted
 - Naviage to home directory of project
 - Run `npm run wiki-wiki` to start application
 - In your browser naviagate to `localhost:3000`;
