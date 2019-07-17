@@ -164,8 +164,23 @@ CREATE  PROCEDURE GetSurveyResults()
  DELIMITER ;
 
  
-
- 
+-- SPROC for inserting new survey data
+USE wikiSurvey;
+DELIMITER //
+CREATE PROCEDURE PostSurvey(IN answerValue varchar(255), IN questionID int, IN inputAnswerType varchar(50))
+BEGIN
+SET @answerTypeID = (SELECT AnswerTypeID FROM answerTypes where AnswerType = inputAnswerType);
+ SET @answerID = (SELECT answerID from answers where answer = answerValue and fk_answerType = @answerTypeID);
+ IF ( @answerID IS NULL) THEN -- new answer
+	
+	INSERT INTO answers (answer, fk_answerType) VALUES (answerValue, @answerTypeID);
+    INSERT INTO questions_answers (fk_questionId, fk_answerID, count) VALUES (questionID, LAST_INSERT_ID(), 1); 
+ELSE 
+	SELECT @answerID;
+	UPDATE questions_answers SET count = count+1 WHERE fk_questionID = questionID AND fk_answerID = @answerID;
+END IF;
+END //
+DELIMITER ;
 
 
 

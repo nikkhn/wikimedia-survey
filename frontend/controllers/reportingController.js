@@ -13,33 +13,31 @@ const surveyResults = loadResults().then((response) => {
 		freeTextResults = results.filter((result) => result.questionType == 'Free Text');
 	}
 	if (multipleChoiceResults.length) {
-		const uniqueQuestions = {};
-		multipleChoiceResults.forEach((question) => {
-			if (!uniqueQuestions[question.question]) { // new question we've come across
-				uniqueQuestions[question.question] = [];
-			}
-			uniqueQuestions[question.question].push(question)
-		});
+		const uniqueQuestions = getUniqueQuestions(multipleChoiceResults);
 		for (const uniqueQ in uniqueQuestions) {
 			const tableParentElement = document.getElementById("mc-results-table");
 			generateTableRows(tableParentElement, uniqueQ, uniqueQuestions);
 		}
 	}
 	if (freeTextResults.length) {
-		const uniqueQuestions = {};
-		freeTextResults.forEach((question) => {
-			if (!uniqueQuestions[question.question]) { // new question we've come across
-				uniqueQuestions[question.question] = [];
-			}
-			uniqueQuestions[question.question].push(question)
-		});
+		const uniqueQuestions = getUniqueQuestions(freeTextResults);
 		for (const uniqueQ in uniqueQuestions) {
-			console.log(uniqueQuestions);
 			const tableParentElement = document.getElementById("text-results-table");
 			generateTableRows(tableParentElement, uniqueQ, uniqueQuestions);
 		}
 	}
 });
+
+const getUniqueQuestions = (results) => {
+	const uniqueQuestions = {};
+	results.forEach((question) => {
+		if (!uniqueQuestions[question.question]) { // new question we've come across
+			uniqueQuestions[question.question] = [];
+		}
+		uniqueQuestions[question.question].push(question)
+	});
+	return uniqueQuestions;
+}
 
 const generateTableRows = (tableParentElement, uniqueQ, uniqueQuestions) => {
 	const tableRow = document.createElement('tr');

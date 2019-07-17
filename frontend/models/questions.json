@@ -1,39 +1,37 @@
-{
-	"freeTextQs" : [
-			"Which character do you want to see more of?",
-			"What's your favorite MLP fanfic?"
-	],
-	"multipleChoiceQs" : [
-		{ 
-			"Whats your favorite pony type?" : 
-			[
-				"Alicorn",
-				"Earth Pony",
-				"Pegasus",
-				"Unicorn",
-				"Sea Pony",
-				"Zebra"
-			]
-		},
-		{
-			"Who is your favorite princess?" : 
-			[
-				"Luna",
-				"Celestia",
-				"Cadance",
-				"Twilight"
-			]
-		},
-		{
-			"Who is your favorite pet?" :
-			[
-				"Opal",
-				"Owloysius",
-				"Angel",
-				"Tank",
-				"Gummy",
-				"Winona"
-			]
-		}
-	]
-}
+
+
+[
+	{
+		"questionID": 2,
+		"question": "Who's your favorite princess?",
+		"answers": ["Luna","Celestia","Cadance","Twilight"],
+		"questionType": "Multiple Choice"
+
+	},
+	{
+		"questionID": 4,
+		"question": "Which character do you want to see more of?",
+		"questionType": "Free Text"
+
+	},
+	{
+		"questionID": 3,
+		"question": "Who's your favorite pet?",
+		"answers": ["Opal","Owloysius","Angel","Tank","Winona", "Gummy"],
+		"questionType": "Multiple Choice"
+
+	},
+	{
+		"questionID": 5,
+		"question": "What's your favorite MLP fanfic?",
+		"questionType": "Free Text"
+
+	},
+	{
+		"questionID": 1,
+		"question": "What's your favorite pony type?",
+		"answers": ["Alicorn","Earth Pony","Pegasus", "Unciorn","Sea Pony","Zebra"],
+		"questionType": "Multiple Choice"
+
+	}
+]

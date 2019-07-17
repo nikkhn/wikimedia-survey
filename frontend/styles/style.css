@@ -7,10 +7,13 @@ body {
 	margin: 15px;
 }
 
-.btn-primary {
-	margin: 15px;
+.question-title {
+	font-weight: bold;
 }
 
+.form-check{
+	margin: 5px;
+}
 
 h2 {
 	color: lightskyblue;

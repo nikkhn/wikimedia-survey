@@ -19,11 +19,11 @@ const connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'wikipass',
-  database : 'WikiSurvey'
+  database : 'WikiSurvey',
+  multipleStatements: true,
 });
  
- 
-connection.connect(function(err) {
+connection.connect((err) => {
   if (err) throw err
   console.log('You are now connected with mysql database...')
 })
@@ -32,30 +32,28 @@ app.get('/', (req, res) => {  res.sendFile(path.join(__dirname, pagesDirectory, 
 app.get('/success', (req, res) => { res.sendFile(path.join(__dirname, pagesDirectory, 'success.html'))});
 app.get('/reporting', (req, res) => { res.sendFile(path.join(__dirname, pagesDirectory, 'reporting.html'))});
 
-app.get('/results', function (req, res) {
-	connection.query('CALL GetSurveyResults()', function (error, results, fields) {
+app.get('/results', (req, res) => {
+	connection.query('CALL GetSurveyResults()', (error, results, fields) => {
 	   if (error) throw error;
 	   res.end(JSON.stringify(results));
 	 });
  });
 
-
- app.post('/survey', function (req, res, err) {
+ app.post('/survey', (req, res, err) => {
 	const params  = req.body;
-	let sql = `CALL PostSurveyData(?)`;
-	console.log(params.length);
-	let sqlString = '';
-	const questionAnswerData = params.map((param) => {
-		// console.log(param);
-		sqlString += param.question + ',';
-		sqlString += param.answer + ',';
+	params.forEach((param) => {
+		const { question, answer, questionType } = param;
+		if (!question || !answer || questionType) {
+			throw new Exception("Missing required param");
+		}
+		const insertAnswer = connection.query('SET @answer = ' + "'" + answer +"'"  + '; SET @questionID = ' + "'" + question + "'" + '; SET @inputAnswerType = ' + "'" + questionType + "'" + '; CALL PostSurvey(@answer, @questionID, @inputAnswerType);', (error, results, fields) =>{
+			if (results) {
+				console.log(results);
+			} else {
+				throw new Excpetion('Failed to send survey data');
+			}
+		});
 	})
-	console.log(sqlString);
-	// connection.query(sql, params, function (error, results, fields) {
-	// 	console.log(error);
-	//    if (error) throw error;
-	//    res.end(JSON.stringify(results));
-	//  });
  });
  
 app.get('/results', (req, res) => { res.send()} )
